@@ -1,0 +1,36 @@
+{
+    "name": "Slaystation",
+
+    "description": "Bot som kjøper playstation hos Power.no og Elkjøp.no",
+
+    "version": "0.0.1",
+
+    "manifest_version": 2,
+
+    "icons": { "16": "./icons/16x16.png",
+           "48": "./icons/48x48.png",
+          "128": "./icons/128x128.png" },
+
+    
+
+    "background": {
+        "scripts": ["./background.js"]
+    },
+
+    "options_page": "./options.html",
+
+    "browser_action": {
+        "default_popup": "popup.html"
+    },
+
+    "permissions": [
+        "tabs",
+        "webNavigation",
+        "https://www.elkjop.no/",
+        "https://www.power.no/",
+        "https://www.api.vipps.no/",
+        "https://api.vipps.no/",
+        "https://www.vipps.no/",
+        "storage"
+    ] 
+}
