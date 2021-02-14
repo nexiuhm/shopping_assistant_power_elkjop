@@ -1,7 +1,7 @@
 {
-    "name": "Slaystation",
+    "name": "Playstation 5 kjøpsassistent",
 
-    "description": "Bot som kjøper playstation hos Power.no og Elkjøp.no",
+    "description": "Kjøpe assistent for Playstation 5. Et verktøy som kan brukes i kampen mot storkjøpere, som har preget lanseringen i Norge.",
 
     "version": "0.0.1",
 
@@ -24,13 +24,11 @@
     },
 
     "permissions": [
-        "tabs",
         "webNavigation",
-        "https://www.elkjop.no/",
         "https://www.power.no/",
-        "https://www.api.vipps.no/",
-        "https://api.vipps.no/",
-        "https://www.vipps.no/",
-        "storage"
+        "https://www.netonnet.no/",
+        "https://www.elkjop.no/",
+        "https://api.vipps.no/"
+
     ] 
 }
