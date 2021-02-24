@@ -100,21 +100,32 @@
 
     if(window.location.hostname === "www.power.no") {
     
-      // digitalVersion ? productIds.power.digital : productIds.power.disk
-      return addToCartPower(digitalVersion ? productIds.power.digital : productIds.power.disk)
+   
+      const productId = digitalVersion ? productIds.power.digital : productIds.power.disk;
+      return await isInStockPower(productId) ? await addToCartPower(productId) : "negative";
     }
 
     else if(window.location.hostname ==="www.elkjop.no") {
-      return addToCartElkjop(digitalVersion ? productIds.elkjop.digital : productIds.elkjop.disk)
+      return await addToCartElkjop(digitalVersion ? productIds.elkjop.digital : productIds.elkjop.disk)
     }
 
     else if(window.location.hostname ==="www.netonnet.no") {
-      console.log("here ntnntn");
-     return addToCartNetonNet(digitalVersion ? productIds.net.digital : productIds.net.disk);
-     //return addToCartNetonNet(1008643);
+
+      return await addToCartNetonNet(digitalVersion ? productIds.elkjop.digital : productIds.elkjop.disk);
+     
     }
 
 
+  }
+
+  async function isInStockPower(productId) {
+    const res = await fetch(`https://www.power.no/umbraco/api/product/getproductsbyids?ids=${productId}`)
+    const res_json = await res.json();
+    const isInStock = (res_json["0"].StockCount) != 0;
+    console.log("is in stock: " + isInStock)
+    if(res_json["0"].StockCount != 0) return true;
+    else return false;
+    
   }
   function getAttemptFrequency() {
 
