@@ -6,7 +6,7 @@
   let attempts = 0;
   let attemptmode = "patrol";
   const notificationVideoYoutubeURL = "https://youtu.be/Y6ljFaKRTrI?t=6";
-
+  let debug_obj = {};
 
  
   /* Unused */
@@ -22,7 +22,7 @@
 
   const productIds = {
     elkjop: {disk: "220276", digital: "220280"},
-    power: {disk: "1077687", digital: "1101680"},
+    power: {disk: "1077687", digital: "745387",digitad: "1101680"},
     net: {disk: "1012886", digital: "1013477"},
   }
 
@@ -86,17 +86,25 @@
 
   async function startAttempts() {
 
+    debug_obj.attempt_no = attempts;
     if(sessionStorage.getItem("playStationAddedToCart")) return;
 
     const startTimer = (new Date()).getTime();
     const isAddedToCart = await addToCart();
     const endTimer = (new Date()).getTime();
-
+    const responseTime = (endTimer - startTimer);
     updateAttempts();
-    updateServerResponseTime((endTimer - startTimer) + " ms");
+    updateServerResponseTime(responseTime);
+
+    /* Debug */
+    debug_obj.response_time_ms = responseTime;
+    debug_obj.is_added_to_cart = isAddedToCart;
+    console.table(debug_obj);
+    debug_obj = {};
 
     if(isAddedToCart) {
       sessionStorage.setItem('playStationAddedToCart', 'true');
+      
       notifyUserOfSuccess();
     }
 
@@ -117,7 +125,7 @@
       /* Power */
       case "www.power.no":
         const productId = digitalVersion ? productIds.power.digital : productIds.power.disk
-        return await isInStockPower(productId) ? await addToCartPower(productId) : false
+        return await isInStockPower(productId) && await addToCartPower(productId)
 
       /* Elkjøp */
       case "www.elkjop.no":
@@ -169,7 +177,7 @@
 
   function updateServerResponseTime(latency) {
     let counter = document.querySelector("#bot-latency-txt");
-    counter.innerText = latency;
+    counter.innerText = latency + " ms";
   }
 
 
@@ -180,10 +188,11 @@
   async function isInStockPower(productId) {
     const res = await fetch(`https://www.power.no/umbraco/api/product/getproductsbyids?ids=${productId}`)
     const res_json = await res.json();
-    const isInStock = (res_json["0"].StockCount) != 0;
-    console.log("is in stock: " + isInStock)
-    if(res_json["0"].StockCount != 0) return true;
-    else return false;
+    const stock_count = res_json["0"].StockCount;
+    const isInStock = (stock_count) != 0;
+    debug_obj.stock_count = stock_count;
+    
+    return isInStock;
     
   }
 
