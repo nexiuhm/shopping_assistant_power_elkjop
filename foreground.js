@@ -22,7 +22,7 @@
 
   const productIds = {
     elkjop: {disk: "220276", digital: "220280"},
-    power: {disk: "1077687", digital: "745387",digitad: "1101680"},
+    power: {disk: "1077687", digital: "1101680"},
     net: {disk: "1012886", digital: "1013477"},
   }
 
